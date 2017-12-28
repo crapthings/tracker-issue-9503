@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
-import { mount } from 'react-mounter'
 
-class LayoutA extends Component {
+import {
+  BrowserRouter as Router,
+  Route,
+  NavLink,
+  Link,
+} from 'react-router-dom'
+
+class PageA extends Component {
   componentWillMount() {
-    console.log('layout a did mount', 1)
+    console.log('layout a will mount', 1)
   }
 
   componentWillUnmount() {
@@ -12,15 +18,13 @@ class LayoutA extends Component {
   }
 
   render() {
-    return <div>
-      {this.props.children()}
-    </div>
+    return <A />
   }
 }
 
 class A extends Component {
   componentWillMount() {
-    console.log('component a did mount', 2)
+    console.log('component a will mount', 2)
   }
 
   componentWillUnmount() {
@@ -32,19 +36,9 @@ class A extends Component {
   }
 }
 
-FlowRouter.route('/', {
-  action() {
-    mount(LayoutA, {
-      children() {
-        return <A />
-      }
-    })
-  }
-})
-
-class LayoutB extends Component {
+class PageB extends Component {
   componentWillMount() {
-    console.log('layout b did mount', 1)
+    console.log('layout b will mount', 1)
   }
 
   componentWillUnmount() {
@@ -52,15 +46,13 @@ class LayoutB extends Component {
   }
 
   render() {
-    return <div>
-      {this.props.children()}
-    </div>
+    return <B />
   }
 }
 
 class B extends Component {
   componentWillMount() {
-    console.log('component b did mount', 2)
+    console.log('component b will mount', 2)
   }
 
   componentWillUnmount() {
@@ -72,12 +64,24 @@ class B extends Component {
   }
 }
 
-FlowRouter.route('/b', {
-  action() {
-    mount(LayoutB, {
-      children() {
-        return <B />
-      }
-    })
-  }
+const App = () => {
+  return (
+    <Router>
+      <div>
+        <div>
+          <h3><Link to='/'>a</Link></h3>
+          <h3><Link to='/b'>b</Link></h3>
+        </div>
+
+        <Route exact path='/' component={PageA} />
+        <Route exact path='/b' component={PageB} />
+      </div>
+    </Router>
+  )
+}
+
+Meteor.startup(function () {
+  const div = document.createElement('div')
+  document.body.appendChild(div)
+  render(<App />, div)
 })
