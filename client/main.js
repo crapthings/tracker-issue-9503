@@ -8,6 +8,55 @@ import {
   Link,
 } from 'react-router-dom'
 
+import {
+  WithSubscribe,
+  WithTracker,
+  WithCall,
+  WithUserId,
+  WithoutUserId,
+  config,
+} from 'meteor/crapthings:react-meteor-components'
+
+const Demo1 = () => {
+  return (
+    <div>
+      <h3>subscribe to an reactive list</h3>
+      <WithSubscribe name='test1'>
+        <WithTracker list={context => Test1.find()}>
+          {({ data: { list: test1 } }) => (
+            test1.map(({ _id, content }) => (
+              <div key={_id}>{content}</div>
+            ))
+          )}
+        </WithTracker>
+      </WithSubscribe>
+    </div>
+  )
+}
+
+const Demo2 = () => {
+  return (
+    <div>
+      <h3>subscribe to an reactive list</h3>
+      <WithSubscribe name='test2'>
+        <WithTracker list={context => Test1.find()}>
+          {({ data: { list: test1 } }) => {
+            return (
+              <div>
+                {test1.map(({ _id, content }) => (
+                  <div key={_id}>{content}</div>
+                ))}
+
+                <Demo1 />
+              </div>
+            )
+          }}
+        </WithTracker>
+      </WithSubscribe>
+    </div>
+  )
+}
+
 class PageA extends Component {
   componentWillMount() {
     console.log('layout a will mount', 1)
@@ -32,7 +81,7 @@ class A extends Component {
   }
 
   render() {
-    return <div>A</div>
+    return <Demo1 />
   }
 }
 
@@ -60,7 +109,7 @@ class B extends Component {
   }
 
   render() {
-    return <div>B</div>
+    return <Demo2 />
   }
 }
 
