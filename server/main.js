@@ -2,7 +2,6 @@ import _ from 'lodash'
 import faker from 'faker'
 
 Test1.remove({})
-Test2.remove({})
 
 const test1 = _.times(5, idx => ({
   type: 1,
@@ -19,16 +18,20 @@ Test1.batchInsert(test2)
 
 Meteor.publish('test1', function () {
   // this.unblock()
-  return Test1.find({ type: 1 })
+  console.log(this._subscriptionId)
+  const { _subscriptionId } = this
+  const test1 = Test1.find({ type: 1 }).forEach(test => {
+    this.added('test1', test._id, { _subscriptionId, ...test })
+  })
+  return this.ready()
 })
 
 Meteor.publish('test2', function () {
   // this.unblock()
-  return Test1.find({ type: 2 })
-})
-
-Meteor.methods({
-  add() {
-    Test1.insert({ content: faker.lorem.sentences(), type: 1, })
-  }
+  console.log(this._subscriptionId)
+  const { _subscriptionId } = this
+  const test1 = Test1.find({ type: 2 }).forEach(test => {
+    this.added('test1', test._id, { _subscriptionId, ...test })
+  })
+  return this.ready()
 })

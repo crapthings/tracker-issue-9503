@@ -17,59 +17,22 @@ import {
   config,
 } from 'meteor/crapthings:react-meteor-components'
 
-window.RD = new ReactiveDict()
-
-// const Test = () => {
-//   return (
-//     <div>
-//       <h3>subscribe to an reactive list</h3>
-//       <WithTracker list={context => Test1.find()}>
-//         {({ data: { list: test1 } }) => {
-//           return (
-//             <div>
-//               {test1.map(({ _id, content }) => (
-//                 <div key={_id}>{content}</div>
-//               ))}
-//               <Demo3 />
-//             </div>
-//           )
-//         }}
-//       </WithTracker>
-//     </div>
-//   )
-// }
-
-// const Demo1 = () => {
-//   return (
-//     <div>
-//       <h3>subscribe to an reactive list</h3>
-//       <WithTracker list={context => Test1.find()}>
-//         {({ data: { list: test1 } }) => {
-//           return (
-//             <div>
-//               {test1.map(({ _id, content }) => (
-//                 <div key={_id}>{content}</div>
-//               ))}
-//             </div>
-//           )
-//         }}
-//       </WithTracker>
-//     </div>
-//   )
-// }
-
 const Demo1 = () => {
   return (
     <div>
-      <h3>subscribe to an reactive list</h3>
+      <h3>subscribe to test1</h3>
       <WithSubscribe name='test1'>
-        <WithTracker list={context => Test1.find()}>
-          {({ data: { list: test1 } }) => (
-            test1.map(({ _id, content }) => (
-              <div key={_id}>{content}</div>
-            ))
-          )}
-        </WithTracker>
+        {({ _subscriptionId }) => {
+          return (
+            <WithTracker list={context => Test1.find({ _subscriptionId })}>
+              {({ data: { list: test1 } }) => (
+                test1.map(({ _id, content }) => (
+                  <div key={_id}>{content}</div>
+                ))
+              )}
+            </WithTracker>
+          )
+        }}
       </WithSubscribe>
     </div>
   )
@@ -78,48 +41,23 @@ const Demo1 = () => {
 const Demo2 = () => {
   return (
     <div>
-      <h3>subscribe to an reactive list</h3>
+      <h3>subscribe to test2</h3>
       <WithSubscribe name='test2'>
-        <WithTracker list={context => Test1.find()}>
-          {({ data: { list: test1 } }) => {
-            return (
-              <div>
-                {test1.map(({ _id, content }) => (
+        {({ _subscriptionId }) => {
+          return (
+            <WithTracker list={context => Test1.find({ _subscriptionId })}>
+              {({ data: { list: test1 } }) => (
+                test1.map(({ _id, content }) => (
                   <div key={_id}>{content}</div>
-                ))}
-              </div>
-            )
-          }}
-        </WithTracker>
+                ))
+              )}
+            </WithTracker>
+          )
+        }}
       </WithSubscribe>
     </div>
   )
 }
-
-// const Demo3 = () => {
-//   return (
-//     <div>
-//       <h3>demo 3</h3>
-//       <WithSubscribe name='test2'>
-//         <WithTracker data={{
-//           list: context => Test1.find(),
-//           rd: context => RD.get('test'),
-//         }}>
-//           {({ data: { list: test1 , rd} }) => {
-//             return (
-//               <div>
-//                 <h3>{rd}</h3>
-//                 {test1.map(({ _id, content }) => (
-//                   <div key={_id}>{content}</div>
-//                 ))}
-//               </div>
-//             )
-//           }}
-//         </WithTracker>
-//       </WithSubscribe>
-//     </div>
-//   )
-// }
 
 class PageA extends Component {
   componentWillMount() {
@@ -145,35 +83,10 @@ class A extends Component {
   }
 
   render() {
-    return <Demo1 />
-  }
-}
-
-class PageB extends Component {
-  componentWillMount() {
-    console.log('layout b will mount', 1)
-  }
-
-  componentWillUnmount() {
-    console.log('layout b will unmount', 1)
-  }
-
-  render() {
-    return <B />
-  }
-}
-
-class B extends Component {
-  componentWillMount() {
-    console.log('component b will mount', 2)
-  }
-
-  componentWillUnmount() {
-    console.log('component b will unmount', 2)
-  }
-
-  render() {
-    return <Demo2 />
+    return <div>
+      <Demo1 />
+      <Demo2 />
+    </div>
   }
 }
 
@@ -181,13 +94,7 @@ const App = () => {
   return (
     <Router>
       <div>
-        <div>
-          <h3><Link to='/'>a</Link></h3>
-          <h3><Link to='/b'>b</Link></h3>
-        </div>
-
         <Route exact path='/' component={PageA} />
-        <Route exact path='/b' component={PageB} />
       </div>
     </Router>
   )
