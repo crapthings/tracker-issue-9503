@@ -14,6 +14,7 @@ import {
   WithCall,
   WithUserId,
   WithoutUserId,
+  WithUser,
   config,
 } from 'meteor/crapthings:react-meteor-components'
 
@@ -81,6 +82,30 @@ const Demo4 = () => {
   )
 }
 
+const Demo5 = () => {
+  return (
+    <div>
+      <h3>with user</h3>
+      <WithUser>
+        {props => {
+          return <div>{JSON.stringify(props)}</div>
+        }}
+      </WithUser>
+    </div>
+  )
+}
+
+const Demo6 = () => {
+  return (
+    <div>
+      <h3>with user</h3>
+      <WithUser>
+        {() => <div>asdads</div>}
+      </WithUser>
+    </div>
+  )
+}
+
 class PageA extends Component {
   componentWillMount() {
     console.log('layout a will mount', 1)
@@ -110,6 +135,8 @@ class A extends Component {
       <Demo2 />
       <Demo3 />
       <Demo4 />
+      <Demo5 />
+      <Demo6 />
     </div>
   }
 }
