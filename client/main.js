@@ -17,6 +17,8 @@ import {
   config,
 } from 'meteor/crapthings:react-meteor-components'
 
+RD = new ReactiveDict()
+
 const Demo1 = () => {
   return (
     <div>
@@ -46,7 +48,30 @@ const Demo2 = () => {
                 {test1.map(({ _id, content }) => (
                   <div key={_id}>{content}</div>
                 ))}
+                <Demo1 />
+              </div>
+            )
+          }}
+        </WithTracker>
+      </WithSubscribe>
+    </div>
+  )
+}
 
+const Demo3 = () => {
+  return (
+    <div>
+      <h3>demo 3</h3>
+      <WithSubscribe name='test2'>
+        <WithTracker data={{
+          list: context => Test1.find(),
+        }}>
+          {({ data: { list: test1 } }) => {
+            return (
+              <div>
+                {test1.map(({ _id, content }) => (
+                  <div key={_id}>{content}</div>
+                ))}
                 <Demo1 />
               </div>
             )
