@@ -35,3 +35,11 @@ Meteor.publish('test2', function () {
   })
   return this.ready()
 })
+
+Meteor.publish('test3', function () {
+  this.stop()
+})
+
+Meteor.publish('test4', function () {
+  throw new Meteor.Error('error code', 'error reason', 'error details')
+})

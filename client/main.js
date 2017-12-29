@@ -59,6 +59,28 @@ const Demo2 = () => {
   )
 }
 
+const Demo3 = () => {
+  return (
+    <div>
+      <h3>this subscription has stopped for no reason</h3>
+      <WithSubscribe name='test3'>
+        <h3>you can't see me</h3>
+      </WithSubscribe>
+    </div>
+  )
+}
+
+const Demo4 = () => {
+  return (
+    <div>
+      <h3>this subscription has error</h3>
+      <WithSubscribe name='test4'>
+        <h3>you will see error instead of me</h3>
+      </WithSubscribe>
+    </div>
+  )
+}
+
 class PageA extends Component {
   componentWillMount() {
     console.log('layout a will mount', 1)
@@ -86,6 +108,8 @@ class A extends Component {
     return <div>
       <Demo1 />
       <Demo2 />
+      <Demo3 />
+      <Demo4 />
     </div>
   }
 }
