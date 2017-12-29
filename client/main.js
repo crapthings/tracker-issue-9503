@@ -17,45 +17,63 @@ import {
   config,
 } from 'meteor/crapthings:react-meteor-components'
 
-RD = new ReactiveDict()
+window.RD = new ReactiveDict()
 
-Meteor.subscribe('test1')
-
-const Demo1 = () => {
-  return (
-    <div>
-      <h3>subscribe to an reactive list</h3>
-      <WithTracker list={context => Test1.find()}>
-        {({ data: { list: test1 } }) => {
-          return (
-            <div>
-              {test1.map(({ _id, content }) => (
-                <div key={_id}>{content}</div>
-              ))}
-            </div>
-          )
-        }}
-      </WithTracker>
-    </div>
-  )
-}
+// const Test = () => {
+//   return (
+//     <div>
+//       <h3>subscribe to an reactive list</h3>
+//       <WithTracker list={context => Test1.find()}>
+//         {({ data: { list: test1 } }) => {
+//           return (
+//             <div>
+//               {test1.map(({ _id, content }) => (
+//                 <div key={_id}>{content}</div>
+//               ))}
+//               <Demo3 />
+//             </div>
+//           )
+//         }}
+//       </WithTracker>
+//     </div>
+//   )
+// }
 
 // const Demo1 = () => {
 //   return (
 //     <div>
 //       <h3>subscribe to an reactive list</h3>
-//       <WithSubscribe name='test1'>
-//         <WithTracker list={context => Test1.find()}>
-//           {({ data: { list: test1 } }) => (
-//             test1.map(({ _id, content }) => (
-//               <div key={_id}>{content}</div>
-//             ))
-//           )}
-//         </WithTracker>
-//       </WithSubscribe>
+//       <WithTracker list={context => Test1.find()}>
+//         {({ data: { list: test1 } }) => {
+//           return (
+//             <div>
+//               {test1.map(({ _id, content }) => (
+//                 <div key={_id}>{content}</div>
+//               ))}
+//             </div>
+//           )
+//         }}
+//       </WithTracker>
 //     </div>
 //   )
 // }
+
+const Demo1 = () => {
+  return (
+    <div>
+      <h3>subscribe to an reactive list</h3>
+      <WithSubscribe name='test1'>
+        <WithTracker list={context => Test1.find()}>
+          {({ data: { list: test1 } }) => (
+            test1.map(({ _id, content }) => (
+              <div key={_id}>{content}</div>
+            ))
+          )}
+        </WithTracker>
+      </WithSubscribe>
+    </div>
+  )
+}
 
 const Demo2 = () => {
   return (
@@ -69,7 +87,6 @@ const Demo2 = () => {
                 {test1.map(({ _id, content }) => (
                   <div key={_id}>{content}</div>
                 ))}
-                <Demo1 />
               </div>
             )
           }}
@@ -79,29 +96,30 @@ const Demo2 = () => {
   )
 }
 
-const Demo3 = () => {
-  return (
-    <div>
-      <h3>demo 3</h3>
-      <WithSubscribe name='test2'>
-        <WithTracker data={{
-          list: context => Test1.find(),
-        }}>
-          {({ data: { list: test1 } }) => {
-            return (
-              <div>
-                {test1.map(({ _id, content }) => (
-                  <div key={_id}>{content}</div>
-                ))}
-                <Demo1 />
-              </div>
-            )
-          }}
-        </WithTracker>
-      </WithSubscribe>
-    </div>
-  )
-}
+// const Demo3 = () => {
+//   return (
+//     <div>
+//       <h3>demo 3</h3>
+//       <WithSubscribe name='test2'>
+//         <WithTracker data={{
+//           list: context => Test1.find(),
+//           rd: context => RD.get('test'),
+//         }}>
+//           {({ data: { list: test1 , rd} }) => {
+//             return (
+//               <div>
+//                 <h3>{rd}</h3>
+//                 {test1.map(({ _id, content }) => (
+//                   <div key={_id}>{content}</div>
+//                 ))}
+//               </div>
+//             )
+//           }}
+//         </WithTracker>
+//       </WithSubscribe>
+//     </div>
+//   )
+// }
 
 class PageA extends Component {
   componentWillMount() {
