@@ -4,7 +4,7 @@ import faker from 'faker'
 Test1.remove({})
 Test2.remove({})
 
-const test1 = _.times(10, idx => ({
+const test1 = _.times(5000, idx => ({
   content: faker.lorem.sentences(),
   type: 1,
 }))
